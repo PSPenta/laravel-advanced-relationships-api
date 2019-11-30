@@ -65,11 +65,15 @@ Route::middleware('api.cors')->group(function () {
     })->name('getUser.api');
 
     // public routes
+    Route::get('/unauthorised', function () {
+        return response("Unauthorised access!", 401);
+    })->name('login.error');
     Route::post('/login', 'Api\AuthController@login')->name('login.api');
     Route::post('/register', 'Api\AuthController@register')->name('register.api');
 
     // private routes
     Route::middleware('auth:api')->group(function () {
         Route::get('/logout', 'Api\AuthController@logout')->name('logout');
+        Route::post('/change-password', 'Api\AuthController@changePassword')->name('change.password');
     });
 });

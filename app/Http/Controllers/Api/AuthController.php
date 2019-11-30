@@ -68,4 +68,42 @@ class AuthController extends Controller
         $token->revoke();
         return response("You have been succesfully logged out!", 200);
     }
+
+    /**
+     * Change password of registered users.
+     *
+     * @param Illuminate\Http\Request $request
+     *
+     * @return response
+     */
+    public function changePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email|max:255',
+            'old_password' => 'required|string|min:6',
+            'new_password' => 'required|string|min:6|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return response(['errors' => $validator->errors()->all()], 422);
+        }
+
+        if ($request->old_password == $request->new_password) {
+            return response("New password must be different from old one!", 422);
+        }
+
+        $user = User::where('email', $request->email)->first();
+        if ($user) {
+            if (Hash::check($request->old_password, $user->password)) {
+                $user->password = Hash::make($request->new_password);
+                return ($user->save()) 
+                    ? response("Password changed successfully!", 200)
+                    : response("Unable to change password!", 404);
+            } else {
+                return response("Old password missmatch!", 422);
+            }
+        } else {
+            return response("User does not exist!", 422);
+        }
+    }
 }
