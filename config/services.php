@@ -30,4 +30,5 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'from' => ['address' => env('MAIL_FROM_ADDRESS'), 'name' => env('APP_NAME')],
 ];

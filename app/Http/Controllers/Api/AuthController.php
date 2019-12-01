@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\UserRegistered;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\{Hash, Validator};
+use Illuminate\Support\Facades\{Hash, Mail, Validator};
 
 class AuthController extends Controller
 {
@@ -30,6 +31,7 @@ class AuthController extends Controller
 
         $request['password'] = Hash::make($request['password']);
         $user = User::create($request->toArray());
+        Mail::to($request['email'])->send(new UserRegistered());
         return response(['token' => $user->createToken('Laravel Password Grant Client')->accessToken], 200);
     }
 
