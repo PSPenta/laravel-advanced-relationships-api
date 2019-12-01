@@ -118,7 +118,7 @@ class EloquentRelationshipsController extends Controller
     public function getStudentOneToOne($id)
     {
         return (Subject::find($id)) 
-            ? response(Subject::find($id)->student, 200)
+            ? response(Subject::with('student')->find($id), 200)
             : response("No subject found!", 404);
     }
 
