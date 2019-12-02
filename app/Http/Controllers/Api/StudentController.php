@@ -41,18 +41,25 @@ class StudentController extends Controller
      */
     public function addStudent(Request $request)
     {
-        $data = $request->json()->all();
-        $students = new Student();
-        $students->fname = $data['fname'];
-        $students->mname = $data['mname'];
-        $students->lname = $data['lname'];
-        $students->class = $data['class'];
-        $students->college = $data['college'];
-        $students->save();
-        if ($students->save()) {
-            return response("Student created successfully!", 201);
-        } else {
-            return response("Could not create student!", 404);
+        try {
+            $data = $request->json()->all();
+            $user = auth()->user();                 // Get logged in user using auth helper.
+            // $user = Auth::user();                // Get logged in user using Auth facade.
+            $students = new Student();
+            $students->fname = $data['fname'];
+            $students->mname = $data['mname'];
+            $students->lname = $data['lname'];
+            $students->class = $data['class'];
+            $students->college = $data['college'];
+            $students->user_id = $user->id;
+            $students->save();
+            if ($students->save()) {
+                return response("Student created successfully!", 201);
+            } else {
+                return response("Could not create student!", 404);
+            }
+        } catch (\Throwable $th) {
+            return response("Internal server error!", 500);
         }
     }
 

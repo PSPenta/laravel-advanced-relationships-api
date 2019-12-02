@@ -21,6 +21,26 @@ class Student extends Model
     ];
 
     /**
+     * The Full Name Accessor.
+     *
+     * @var array
+     */
+    public function getFullNameAttribute()
+    {
+        return $this->fname . " " . $this->mname . " " . $this->lname;
+    }
+
+    /**
+     * The College Mutator.
+     *
+     * @var array
+     */
+    public function setCollegeAttribute($value)
+    {
+        $this->attributes['college'] = ucwords(strtolower($value));
+    }
+
+    /**
      * The One To One relationship.
      *
      * @var array
