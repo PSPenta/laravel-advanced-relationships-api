@@ -9,7 +9,7 @@ class Video extends Model
     /**
      * The Polymorphic M2M relationship.
      *
-     * @var array
+     * @return array
      */
     public function tags()
     {

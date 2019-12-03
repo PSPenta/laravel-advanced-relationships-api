@@ -9,7 +9,7 @@ class Photo extends Model
     /**
      * The Polymorphic relationship.
      *
-     * @var array
+     * @return object
      */
     public function imageable()
     {

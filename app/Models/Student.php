@@ -23,7 +23,7 @@ class Student extends Model
     /**
      * The Full Name Accessor.
      *
-     * @var array
+     * @return string
      */
     public function getFullNameAttribute()
     {
@@ -43,7 +43,7 @@ class Student extends Model
     /**
      * The One To One relationship.
      *
-     * @var array
+     * @return object
      */
     public function subject()
     {
@@ -53,7 +53,7 @@ class Student extends Model
     /**
      * The One To Many relationship.
      *
-     * @var array
+     * @return array
      */
     public function subjects()
     {
@@ -63,7 +63,7 @@ class Student extends Model
     /**
      * The Polymorphic O2O relationship.
      *
-     * @var array
+     * @return object
      */
     public function photos()
     {
@@ -73,7 +73,7 @@ class Student extends Model
     /**
      * The Polymorphic M2M relationship.
      *
-     * @var array
+     * @return array
      */
     public function tags()
     {

@@ -44,7 +44,8 @@ class EloquentRelationshipsController extends Controller
      */
     public function setSubjectOneToOne(Request $request, $id)
     {
-        if ($student = Student::find($id)) {
+        $student = Student::find($id);
+        if ($student) {
             $subject_data = $request->json()->all();
             $subject = new Subject();
             $subject->sub_name = $subject_data['sub_name'];
@@ -95,7 +96,8 @@ class EloquentRelationshipsController extends Controller
      */
     public function deleteSubjectOneToOne($id)
     {
-        if ($student = Student::find($id)) {
+        $student = Student::find($id);
+        if ($student) {
             if ($student->subject) {
                 return ($student->subject->delete()) 
                     ? response("Subject of user delete successfully!", 200)
@@ -149,7 +151,8 @@ class EloquentRelationshipsController extends Controller
      */
     public function setSubjectOneToMany(Request $request, $id)
     {
-        if ($student = Student::find($id)) {
+        $student = Student::find($id);
+        if ($student) {
             $subject_data = $request->json()->all();
             $subject = new Subject();
             $subject->sub_name = $subject_data['sub_name'];
@@ -201,7 +204,8 @@ class EloquentRelationshipsController extends Controller
      */
     public function deleteSubjectOneToMany($id)
     {
-        if ($student = Student::find($id)) {
+        $student = Student::find($id);
+        if ($student) {
             if (count($student->subjects)) {
                 $count = 0;
                 foreach ($student->subjects as $subject)
@@ -228,7 +232,8 @@ class EloquentRelationshipsController extends Controller
      */
     public function getRolesManyToMany($id)
     {
-        if ($user = User::find($id)) {
+        $user = User::find($id);
+        if ($user) {
             if ($user->has('roles')) {
                 $roles = [];
                 foreach (User::find($id)->roles as $role)
@@ -254,8 +259,10 @@ class EloquentRelationshipsController extends Controller
      */
     public function setRolesManyToMany($rid, $uid)
     {
-        if ($user = User::find($uid)) {
-            if ($role = Role::find($rid)) {
+        $user = User::find($uid);
+        if ($user) {
+            $role = Role::find($rid);
+            if ($role) {
                 // return ($user->roles()->attach($rid)) ? response("Role attached to user successfully!", 200) : response("Unable to attach role to user!", 404);
                 // return ($user->roles()->sync([$rids])) ? response("Role synced to user successfully!", 200) : response("Unable to sync role to user!", 404);
                 return ($user->roles()->save($role)) 
@@ -278,7 +285,8 @@ class EloquentRelationshipsController extends Controller
      */
     public function deleteRolesManyToMany($id)
     {
-        if ($user = User::find($id)) {
+        $user = User::find($id);
+        if ($user) {
             if ($user->has('roles')) {
                 // return ($user->roles()->detach($rid)) ? response("User role detached successfully!", 200) : response("Unable to detach roles of user!", 404);
                 return ($user->roles()->delete()) 

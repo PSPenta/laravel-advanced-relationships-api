@@ -18,7 +18,7 @@ class Subject extends Model
     /**
      * The One To One relationship.
      *
-     * @var array
+     * @return array
      */
     public function student()
     {
@@ -28,7 +28,7 @@ class Subject extends Model
     /**
      * The Polymorphic O2M relationship.
      *
-     * @var array
+     * @return array
      */
     public function photos()
     {

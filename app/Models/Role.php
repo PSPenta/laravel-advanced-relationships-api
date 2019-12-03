@@ -9,7 +9,7 @@ class Role extends Model
     /**
      * The Many To Many relationship.
      *
-     * @var array
+     * @return array
      */
     public function users()
     {

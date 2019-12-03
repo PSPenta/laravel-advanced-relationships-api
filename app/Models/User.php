@@ -41,7 +41,7 @@ class User extends Authenticatable
     /**
      * The Many To Many relationship.
      *
-     * @var array
+     * @return array
      */
     public function roles()
     {
@@ -51,7 +51,7 @@ class User extends Authenticatable
     /**
      * The Has Many Through relationship.
      *
-     * @var array
+     * @return array
      */
     public function subjects()
     {
@@ -61,7 +61,7 @@ class User extends Authenticatable
     /**
      * The Polymorphic relationship.
      *
-     * @var array
+     * @return array
      */
     public function photos()
     {
