@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Student;
+use App\Repositories\StudentRepository;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -15,9 +16,9 @@ class StudentController extends Controller
      *
      * @return response
      */
-    public function getStudents()
+    public function getStudents(StudentRepository $studentRepository)
     {
-        return response(Student::all(), 200);
+        return response($studentRepository->getAllRecords(), 200);
     }
 
     /**
@@ -27,9 +28,9 @@ class StudentController extends Controller
      *
      * @return response
      */
-    public function getStudent($id)
+    public function getStudent(StudentRepository $studentRepository, $id)
     {
-        return response(Student::find($id), 200);
+        return response($studentRepository->findById($id), 200);
     }
 
     /**
@@ -192,10 +193,10 @@ class StudentController extends Controller
      *
      * @return response
      */
-    public function getSoftDeletedStudent($id)
+    public function getSoftDeletedStudent(StudentRepository $studentRepository, $id)
     {
         // $students = Student::onlyTrashed()->find($id);
-        return response(Student::onlyTrashed()->get(), 200);
+        return response($studentRepository->getOnlyTrashed(), 200);
     }
 
     /**
