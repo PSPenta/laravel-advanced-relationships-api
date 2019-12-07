@@ -55,12 +55,12 @@ class StudentController extends Controller
             $students->user_id = $user->id;
             $students->save();
             if ($students->save()) {
-                return response()->json("Student created successfully!", 201);
+                return response()->json(["success" => "Student created successfully!"], 201);
             } else {
-                return response()->json("Could not create student!", 404);
+                return response()->json(["error" => "Could not create student!"], 404);
             }
         } catch (\Throwable $th) {
-            return response()->json("Internal server error!", 500);
+            return response()->json(["error" => "Internal server error!"], 500);
         }
     }
 
@@ -81,7 +81,7 @@ class StudentController extends Controller
             'class' => $data['class'],
             'college' => $data['college']
         ]);
-        return response()->json("Student created successfully!", 201);
+        return response()->json(["success" => "Student created successfully!"], 201);
     }
 
     /**
@@ -103,9 +103,9 @@ class StudentController extends Controller
             $students->class = $data['class'];
             $students->college = $data['college'];
             if ($students->save()) {
-                return response()->json("Student updated successfully!", 201);
+                return response()->json(["success" => "Student updated successfully!"], 200);
             } else {
-                return response()->json("Could not update student!", 404);
+                return response()->json(["error" => "Could not update student!"], 404);
             }
         }
     }
@@ -129,9 +129,9 @@ class StudentController extends Controller
                 'class' => $data['class'],
                 'college' => $data['college']
             ]);
-            return response()->json("Student updated successfully!", 201);
+            return response()->json(["success" => "Student updated successfully!"], 200);
         } else {
-            return response()->json("Could not update student!", 404);
+            return response()->json(["error" => "Could not update student!"], 404);
         }
     }
 
@@ -146,9 +146,9 @@ class StudentController extends Controller
     {
         if (Student::find($id)) {
             Student::find($id)->delete();
-            return response()->json("Student deleted successfully!", 200);
+            return response()->json(["success" => "Student deleted successfully!"], 200);
         } else {
-            return response()->json("Could not delete student!", 404);
+            return response()->json(["error" => "Could not delete student!"], 404);
         }
     }
 
@@ -164,9 +164,9 @@ class StudentController extends Controller
         if (Student::find($id)) {
             Student::destroy($id);
             // Student::destroy([$id, 1, 2, 3, 4]);
-            return response()->json("Student deleted successfully!", 200);
+            return response()->json(["success" => "Student deleted successfully!"], 200);
         } else {
-            return response()->json("Could not delete student!", 404);
+            return response()->json(["error" => "Could not delete student!"], 404);
         }
     }
 
@@ -183,7 +183,7 @@ class StudentController extends Controller
             $ids[] = $id['id'];
         
         Student::destroy($ids);
-        return response()->json("All students deleted successfully!", 200);
+        return response()->json(["success" => "All students deleted successfully!"], 200);
     }
 
     /**
@@ -209,9 +209,9 @@ class StudentController extends Controller
     public function restoreSoftDeletedStudent($id)
     {
         if (Student::onlyTrashed()->restore()) {
-            return response()->json("Soft deleted Students Restored!", 200);
+            return response()->json(["success" => "Soft deleted Students Restored!"], 200);
         } else {
-            return response()->json("Nothing to restore!", 404);
+            return response()->json(["error" => "Nothing to restore!"], 404);
         }
     }
 
@@ -225,9 +225,9 @@ class StudentController extends Controller
     public function forceDeleteSoftDeletedStudent($id)
     {
         if (Student::onlyTrashed()->forceDelete()) {
-            return response()->json("Soft deleted Students permanently removed!", 200);
+            return response()->json(["success" => "Soft deleted Students permanently removed!"], 200);
         } else {
-            return response()->json("Nothing to remove!", 404);
+            return response()->json(["error" => "Nothing to remove!"], 404);
         }
     }
 }

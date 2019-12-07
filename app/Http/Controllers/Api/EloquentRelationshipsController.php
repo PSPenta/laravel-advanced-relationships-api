@@ -31,7 +31,7 @@ class EloquentRelationshipsController extends Controller
     {
         return (Student::find($id)) 
             ? response()->json(Student::find($id)->subject, 200)
-            : response()->json("No student found!", 404);
+            : response()->json(["error" => "No student found!"], 404);
     }
 
     /**
@@ -53,13 +53,13 @@ class EloquentRelationshipsController extends Controller
             $subject->obtained_marks = $subject_data['obtained_marks'];
             if ($subject->save()) {
                 return ($student->subject()->save($subject)) 
-                    ? response()->json("Subject assigned to user successfully!", 200)
-                    : response()->json("Unable to assign subject to user!", 404);
+                    ? response()->json(["success" => "Subject assigned to user successfully!"], 200)
+                    : response()->json(["error" => "Unable to assign subject to user!"], 404);
             } else {
-                return response()->json("Unable to save subject!", 404);
+                return response()->json(["error" => "Unable to save subject!"], 404);
             }
         } else {
-            return response()->json("No student found!", 404);
+            return response()->json(["error" => "No student found!"], 404);
         }
     }
 
@@ -80,10 +80,10 @@ class EloquentRelationshipsController extends Controller
             $subject->total_marks = $subject_data['total_marks'];
             $subject->obtained_marks = $subject_data['obtained_marks'];
             return ($subject->save()) 
-                ? response()->json("Subject of user updated successfully!", 200)
-                : response()->json("Unable to update subject!", 404);
+                ? response()->json(["success" => "Subject of user updated successfully!"], 200)
+                : response()->json(["error" => "Unable to update subject!"], 404);
         } else {
-            return response()->json("No subject found!", 404);
+            return response()->json(["error" => "No subject found!"], 404);
         }
     }
 
@@ -100,13 +100,13 @@ class EloquentRelationshipsController extends Controller
         if ($student) {
             if ($student->subject) {
                 return ($student->subject->delete()) 
-                    ? response()->json("Subject of user delete successfully!", 200)
-                    : response()->json("Unable to delete subject!", 404);
+                    ? response()->json(["success" => "Subject of user delete successfully!"], 200)
+                    : response()->json(["error" => "Unable to delete subject!"], 404);
             } else {
-                return response()->json("No subject found!", 404);
+                return response()->json(["error" => "No subject found!"], 404);
             }
         } else {
-            return response()->json("No student found!", 404);
+            return response()->json(["error" => "No student found!"], 404);
         }
     }
 
@@ -121,7 +121,7 @@ class EloquentRelationshipsController extends Controller
     {
         return (Subject::find($id)) 
             ? response()->json(Subject::with('student')->find($id), 200)
-            : response()->json("No subject found!", 404);
+            : response()->json(["error" => "No subject found!"], 404);
     }
 
     /**
@@ -136,9 +136,9 @@ class EloquentRelationshipsController extends Controller
         return (Student::find($id)) 
             ? (count(Student::find($id)->subjects) 
                 ? response()->json(Student::find($id)->subjects, 200)
-                : response()->json("No subjects found!", 404)
+                : response()->json(["error" => "No subjects found!"], 404)
             ) 
-            : response()->json("No student found!", 404);
+            : response()->json(["error" => "No student found!"], 404);
     }
 
     /**
@@ -160,13 +160,13 @@ class EloquentRelationshipsController extends Controller
             $subject->obtained_marks = $subject_data['obtained_marks'];
             if ($subject->save()) {
                 return ($student->subjects()->save($subject)) 
-                    ? response()->json("Subject assigned to user successfully!", 200)
-                    : response()->json("Unable to assign subject to user!", 404);
+                    ? response()->json(["success" => "Subject assigned to user successfully!"], 200)
+                    : response()->json(["error" => "Unable to assign subject to user!"], 404);
             } else {
-                return response()->json("Unable to save subject!", 404);
+                return response()->json(["error" => "Unable to save subject!"], 404);
             }
         } else {
-            return response()->json("No student found!", 404);
+            return response()->json(["error" => "No student found!"], 404);
         }
     }
 
@@ -188,10 +188,10 @@ class EloquentRelationshipsController extends Controller
             $subject->total_marks = $subject_data['total_marks'];
             $subject->obtained_marks = $subject_data['obtained_marks'];
             return ($subject->save()) 
-                ? response()->json("Subject of user updated successfully!", 200)
-                : response()->json("Unable to update subject!", 404);
+                ? response()->json(["success" => "Subject of user updated successfully!"], 200)
+                : response()->json(["error" => "Unable to update subject!"], 404);
         } else {
-            return response()->json("No student or subjects found!", 404);
+            return response()->json(["error" => "No student or subjects found!"], 404);
         }
     }
 
@@ -213,13 +213,13 @@ class EloquentRelationshipsController extends Controller
                         $count++;
                 
                 return ($count > 0) 
-                    ? response()->json("All subjects of current user delete successfully!", 200)
-                    : response()->json("Unable to delete subjects!", 404);
+                    ? response()->json(["success" => "All subjects of current user delete successfully!"], 200)
+                    : response()->json(["error" => "Unable to delete subjects!"], 404);
             } else {
-                return response()->json("No subject found!", 404);
+                return response()->json(["error" => "No subject found!"], 404);
             }
         } else {
-            return response()->json("No student found!", 400);
+            return response()->json(["error" => "No student found!"], 400);
         }
     }
 
@@ -242,10 +242,10 @@ class EloquentRelationshipsController extends Controller
                 return response()->json($roles, 200);
                 // return response()->json(User::find($id)->roles, 200);
             } else {
-                return response()->json("No roles assigned to this user!", 404);
+                return response()->json(["error" => "No roles assigned to this user!"], 404);
             }
         } else {
-            return response()->json("No user found!", 404);
+            return response()->json(["error" => "No user found!"], 404);
         }
     }
 
@@ -263,16 +263,16 @@ class EloquentRelationshipsController extends Controller
         if ($user) {
             $role = Role::find($rid);
             if ($role) {
-                // return ($user->roles()->attach($rid)) ? response()->json("Role attached to user successfully!", 200) : response()->json("Unable to attach role to user!", 404);
-                // return ($user->roles()->sync([$rids])) ? response()->json("Role synced to user successfully!", 200) : response()->json("Unable to sync role to user!", 404);
+                // return ($user->roles()->attach($rid)) ? response()->json(["success" => "Role attached to user successfully!", 200) : response()->json(["error" => "Unable to attach role to user!"], 404);
+                // return ($user->roles()->sync([$rids])) ? response()->json(["success" => "Role synced to user successfully!", 200) : response()->json(["error" => "Unable to sync role to user!"], 404);
                 return ($user->roles()->save($role)) 
-                    ? response()->json("Role assigned to user successfully!", 200)
-                    : response()->json("Unable to assign role to user!", 404);
+                    ? response()->json(["success" => "Role assigned to user successfully!"], 200)
+                    : response()->json(["error" => "Unable to assign role to user!"], 404);
             } else {
-                return response()->json("No role found!", 404);
+                return response()->json(["error" => "No role found!"], 404);
             }
         } else {
-            return response()->json("No user found!", 404);
+            return response()->json(["error" => "No user found!"], 404);
         }
     }
 
@@ -288,15 +288,15 @@ class EloquentRelationshipsController extends Controller
         $user = User::find($id);
         if ($user) {
             if ($user->has('roles')) {
-                // return ($user->roles()->detach($rid)) ? response()->json("User role detached successfully!", 200) : response()->json("Unable to detach roles of user!", 404);
+                // return ($user->roles()->detach($rid)) ? response()->json(["success" => "User role detached successfully!", 200) : response()->json(["error" => "Unable to detach roles of user!"], 404);
                 return ($user->roles()->delete()) 
-                    ? response()->json("User roles deleted successfully!", 200)
-                    : response()->json("Unable to delete roles of user!", 404);
+                    ? response()->json(["success" => "User roles deleted successfully!"], 200)
+                    : response()->json(["error" => "Unable to delete roles of user!"], 404);
             } else {
-                return response()->json("No roles assigned to this user!", 404);
+                return response()->json(["error" => "No roles assigned to this user!"], 404);
             }
         } else {
-            return response()->json("No user found!", 404);
+            return response()->json(["error" => "No user found!"], 404);
         }
     }
 
@@ -319,7 +319,7 @@ class EloquentRelationshipsController extends Controller
             }
             return response()->json($users, 200);
         } else {
-            return response()->json("No user found!", 404);
+            return response()->json(["error" => "No user found!"], 404);
         }
     }
 
@@ -332,7 +332,7 @@ class EloquentRelationshipsController extends Controller
      */
     public function getRolesHasManyThrough($id)
     {
-        return (User::find($id)) ? response()->json(User::find($id)->subjects, 200) : response()->json("No user found!", 404);
+        return (User::find($id)) ? response()->json(User::find($id)->subjects, 200) : response()->json(["error" => "No user found!"], 404);
     }
 
     /**
@@ -344,9 +344,9 @@ class EloquentRelationshipsController extends Controller
      */
     public function getPhotosPolymorphic($id)
     {
-        // return (User::find($id)) ? response()->json(User::find($id)->photos, 200) : response()->json("No user found!", 404);
-        // return (Subject::find($id)) ? response()->json(Subject::find($id)->photos, 200) : response()->json("No subject found!", 404);
-        return (Student::find($id)) ? response()->json(Student::find($id)->photos, 200) : response()->json("No student found!", 404);
+        // return (User::find($id)) ? response()->json(User::find($id)->photos, 200) : response()->json(["error" => "No user found!"], 404);
+        // return (Subject::find($id)) ? response()->json(Subject::find($id)->photos, 200) : response()->json(["error" => "No subject found!"], 404);
+        return (Student::find($id)) ? response()->json(Student::find($id)->photos, 200) : response()->json(["error" => "No student found!"], 404);
     }
 
     /**
@@ -358,7 +358,7 @@ class EloquentRelationshipsController extends Controller
      */
     public function getPhotosOwnerPolymorphic($id)
     {
-        return (Photo::find($id)) ? response()->json(Photo::find($id)->imageable, 200) : response()->json("No owner found!", 404);
+        return (Photo::find($id)) ? response()->json(Photo::find($id)->imageable, 200) : response()->json(["error" => "No owner found!"], 404);
     }
 
     /**
@@ -370,7 +370,7 @@ class EloquentRelationshipsController extends Controller
      */
     public function getTagsPolymorphic($id)
     {
-        return (Student::find($id)) ? response()->json(Student::find($id)->tags, 200) : response()->json("No tag found!", 404);
+        return (Student::find($id)) ? response()->json(Student::find($id)->tags, 200) : response()->json(["error" => "No tag found!"], 404);
     }
 
     /**
@@ -382,7 +382,7 @@ class EloquentRelationshipsController extends Controller
      */
     public function getTagsOwnerPolymorphic($id)
     {
-        // return (Tag::find($id)) ? response()->json(Tag::find($id)->students, 200) : response()->json("No owner found!", 404);
-        return (Tag::find($id)) ? response()->json(Tag::find($id)->videos, 200) : response()->json("No owner found!", 404);
+        // return (Tag::find($id)) ? response()->json(Tag::find($id)->students, 200) : response()->json(["error" => "No owner found!"], 404);
+        return (Tag::find($id)) ? response()->json(Tag::find($id)->videos, 200) : response()->json(["error" => "No owner found!"], 404);
     }
 }

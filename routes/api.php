@@ -19,11 +19,11 @@ Route::middleware('api.cors')->group(function () {
     Route::post('/register', 'Api\AuthController@register')->name('register.api');
 
     Route::get('/unauthenticated', function () {
-        return response()->json("Unauthenticated user!", 401);
+        return response()->json(["error" => "Unauthenticated user!"], 401);
     })->name('login.error');
 
     Route::get('/unauthorized', function () {
-        return response()->json("Unauthorized user!", 403);
+        return response()->json(["error" => "Unauthorized user!"], 403);
     })->name('unauthorized');
 
     // private routes

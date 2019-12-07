@@ -22,7 +22,7 @@ class UserController extends Controller
         if (DB::select("SELECT id, name, email, created_at, updated_at FROM users")) {
             return response()->json(DB::select("SELECT * FROM users"), 200);
         } else {
-            return response()->json("No users found!", 404);
+            return response()->json(["error" => "No users found!"], 404);
         }
     }
 
@@ -38,7 +38,7 @@ class UserController extends Controller
         if (DB::select("SELECT * FROM users WHERE id=?", [$id])) {
             return response()->json(DB::select("SELECT * FROM users WHERE id=?", [$id]), 200);
         } else {
-            return response()->json("No users found!", 404);
+            return response()->json(["error" => "No users found!"], 404);
         }
     }
 
@@ -54,12 +54,12 @@ class UserController extends Controller
         $data = $request->json()->all();
         if ($data["password"]["first"] == $data["password"]["second"]) {
             if (DB::insert("INSERT INTO users (name, email, email_verified_at, password, api_token, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)", [$data["name"], $data["email"], Carbon::now()->toDateTimeString(), Hash::make($data["password"]["first"]), Str::random(60), Carbon::now()->toDateTimeString(), Carbon::now()->toDateTimeString()])) {
-                return response()->json("User created successfully!", 201);
+                return response()->json(["success" => "User created successfully!"], 201);
             } else {
-                return response()->json("Could not create user!", 404);
+                return response()->json(["error" => "Could not create user!"], 404);
             }
         } else {
-            return response()->json("Password doesn't match!", 400);
+            return response()->json(["error" => "Password doesn't match!"], 400);
         }
     }
 
@@ -76,12 +76,12 @@ class UserController extends Controller
         $data = $request->json()->all();
         if ($data["password"]["first"] == $data["password"]["second"]) {
             if (DB::update("UPDATE users SET name=?, email=?, email_verified_at=?, password=?, created_at=?, updated_at=? WHERE id=?", [$data["name"], $data["email"], Carbon::now()->toDateTimeString(), Hash::make($data["password"]["first"]), Carbon::now()->toDateTimeString(), Carbon::now()->toDateTimeString(), $id])) {
-                return response()->json("User updated successfully!", 201);
+                return response()->json(["success" => "User updated successfully!"], 200);
             } else {
-                return response()->json("Could not update user!", 404);
+                return response()->json(["error" => "Could not update user!"], 404);
             }
         } else {
-            return response()->json("Password doesn't match!", 400);
+            return response()->json(["error" => "Password doesn't match!"], 400);
         }
     }
 
@@ -95,9 +95,9 @@ class UserController extends Controller
     public function deleteUser($id)
     {
         if (DB::delete("DELETE FROM users WHERE id=?", [$id])) {
-            return response()->json("User deleted successfully!", 200);
+            return response()->json(["success" => "User deleted successfully!"], 200);
         } else {
-            return response()->json("Could not delete user!", 404);
+            return response()->json(["error" => "Could not delete user!"], 404);
         }
     }
 }
