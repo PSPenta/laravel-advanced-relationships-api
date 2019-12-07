@@ -14,31 +14,47 @@ use Illuminate\Http\Request;
 */
 
 Route::middleware('api.cors')->group(function () {
-    Route::prefix('users')->middleware('auth:api')->group(function () {
-        Route::get('/', 'Api\UserController@getUsers');
-        Route::get('/{id}', 'Api\UserController@getUser');
-        Route::post('/', 'Api\UserController@addUser');
-        Route::put('/{id}', 'Api\UserController@updateUser');
-        Route::delete('/{id}', 'Api\UserController@deleteUser');
-    });
+    // public routes
+    Route::post('/login', 'Api\AuthController@login')->name('login.api');
+    Route::post('/register', 'Api\AuthController@register')->name('register.api');
 
-    Route::prefix('students')->middleware('auth:api')->group(function () {
-        Route::get('/', 'Api\StudentController@getStudents');
-        Route::get('/{id}', 'Api\StudentController@getStudent');
-        Route::post('/', 'Api\StudentController@addStudent');
-        Route::put('/{id}', 'Api\StudentController@updateStudent');
-        Route::delete('/{id}', 'Api\StudentController@deleteStudent');
-        Route::post('/f', 'Api\StudentController@addStudentFillable');
-        Route::put('/{id}/f', 'Api\StudentController@updateStudentFillable');
+    Route::get('/unauthenticated', function () {
+        return response("Unauthenticated user!", 401);
+    })->name('login.error');
 
-        Route::delete('/{id}/multiple', 'Api\StudentController@deleteMultipleStudents');
-        Route::delete('/', 'Api\StudentController@deleteAllStudents');
-        Route::get('/{id}/s', 'Api\StudentController@getSoftDeletedStudent');
-        Route::put('/{id}/sr', 'Api\StudentController@restoreSoftDeletedStudent');
-        Route::delete('/{id}/force', 'Api\StudentController@forceDeleteSoftDeletedStudent');
-    });
+    Route::get('/unauthorized', function () {
+        return response("Unauthorized user!", 403);
+    })->name('unauthorized');
 
+    // private routes
     Route::middleware('auth:api')->group(function () {
+        Route::get('/logout', 'Api\AuthController@logout')->name('logout');
+        Route::post('/change-password', 'Api\AuthController@changePassword')->name('change.password');
+
+        Route::prefix('users')->group(function () {
+            Route::get('/', 'Api\UserController@getUsers');
+            Route::get('/{id}', 'Api\UserController@getUser');
+            Route::post('/', 'Api\UserController@addUser');
+            Route::put('/{id}', 'Api\UserController@updateUser');
+            Route::delete('/{id}', 'Api\UserController@deleteUser');
+        });
+
+        Route::prefix('students')->group(function () {
+            Route::get('/', 'Api\StudentController@getStudents');
+            Route::get('/{id}', 'Api\StudentController@getStudent');
+            Route::post('/', 'Api\StudentController@addStudent');
+            Route::put('/{id}', 'Api\StudentController@updateStudent');
+            Route::delete('/{id}', 'Api\StudentController@deleteStudent');
+            Route::post('/f', 'Api\StudentController@addStudentFillable');
+            Route::put('/{id}/f', 'Api\StudentController@updateStudentFillable');
+
+            Route::delete('/{id}/multiple', 'Api\StudentController@deleteMultipleStudents');
+            Route::delete('/', 'Api\StudentController@deleteAllStudents');
+            Route::get('/{id}/s', 'Api\StudentController@getSoftDeletedStudent');
+            Route::put('/{id}/sr', 'Api\StudentController@restoreSoftDeletedStudent');
+            Route::delete('/{id}/force', 'Api\StudentController@forceDeleteSoftDeletedStudent');
+        });
+
         Route::get('/all-students', 'Api\EloquentRelationshipsController@getStudentsWithAllData');
         Route::get('/students/{id}/oto', 'Api\EloquentRelationshipsController@getStudentOneToOne');
         Route::get('/subjects/{id}/oto', 'Api\EloquentRelationshipsController@getSubjectOneToOne');
@@ -58,22 +74,5 @@ Route::middleware('api.cors')->group(function () {
         Route::get('/photos/{id}/owner/poly', 'Api\EloquentRelationshipsController@getPhotosOwnerPolymorphic');
         Route::get('/tags/{id}/polym2m', 'Api\EloquentRelationshipsController@getTagsPolymorphic');
         Route::get('/tags/{id}/owner/polym2m', 'Api\EloquentRelationshipsController@getTagsOwnerPolymorphic');
-    });
-
-    Route::middleware('auth:api')->get('/user', function (Request $request) {
-        return $request->user();
-    })->name('getUser.api');
-
-    // public routes
-    Route::get('/unauthorised', function () {
-        return response("Unauthorised access!", 401);
-    })->name('login.error');
-    Route::post('/login', 'Api\AuthController@login')->name('login.api');
-    Route::post('/register', 'Api\AuthController@register')->name('register.api');
-
-    // private routes
-    Route::middleware('auth:api')->group(function () {
-        Route::get('/logout', 'Api\AuthController@logout')->name('logout');
-        Route::post('/change-password', 'Api\AuthController@changePassword')->name('change.password');
     });
 });
