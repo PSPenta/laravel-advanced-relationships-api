@@ -20,7 +20,23 @@ class UserController extends Controller
     public function getUsers()
     {
         if (DB::select("SELECT id, name, email, created_at, updated_at FROM users")) {
-            return response()->json(DB::select("SELECT * FROM users"), 200);
+            return response()->json(DB::select("SELECT id, name, email, created_at, updated_at FROM users"), 200);
+        } else {
+            return response()->json(["error" => "No users found!"], 404);
+        }
+    }
+
+    /**
+     * Get paginated all users data.
+     *
+     * @param
+     *
+     * @return response
+     */
+    public function getUsersPaginate()
+    {
+        if (DB::table("users")) {
+            return response()->json(DB::table("users")->paginate(10), 200);
         } else {
             return response()->json(["error" => "No users found!"], 404);
         }

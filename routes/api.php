@@ -33,6 +33,7 @@ Route::middleware('api.cors')->group(function () {
 
         Route::prefix('users')->group(function () {
             Route::get('/', 'Api\UserController@getUsers');
+            Route::get('/paginate', 'Api\UserController@getUsersPaginate');
             Route::get('/{id}', 'Api\UserController@getUser');
             Route::post('/', 'Api\UserController@addUser');
             Route::put('/{id}', 'Api\UserController@updateUser');
