@@ -8,9 +8,13 @@ class Repository
     protected $model;
 
     // Get all instances of model
-    public function getAllRecords()
+    public function getAllRecords($paginate = 0)
     {
-        return $this->model->all();
+        if ($paginate) {
+            return $this->model->paginate($paginate);
+        } else {
+            return $this->model->all();
+        }
     }
 
     // show the record with the given id

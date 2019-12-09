@@ -17,7 +17,8 @@ class EloquentRelationshipsController extends Controller
      */
     public function getStudentsWithAllData()
     {
-        return response()->json(Student::with('subjects')->with('photos')->with('tags')->get(), 200);
+        // return response()->json(Student::with('subjects')->with('photos')->with('tags')->get(), 200);
+        return response()->json(Student::with('subjects')->with('photos')->with('tags')->paginate(10), 200);
     }
 
     /**

@@ -18,7 +18,11 @@ class StudentController extends Controller
      */
     public function getStudents(StudentRepository $studentRepository)
     {
-        return response()->json($studentRepository->getAllRecords(), 200);
+        try {
+            return response()->json($studentRepository->getAllRecords(10), 200);
+        } catch (\Throwable $th) {
+            return response()->json(["error" => "Internal server error!"], 500);
+        }
     }
 
     /**
