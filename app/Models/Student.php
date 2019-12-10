@@ -9,6 +9,11 @@ class Student extends Model
 {
     use SoftDeletes;
 
+    /**
+     * The date mutators.
+     *
+     * @var array
+     */
     protected $dates = ['deleted_at'];
 
     /**
