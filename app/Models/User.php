@@ -45,7 +45,7 @@ class User extends Authenticatable
      */
     public function roles()
     {
-        return $this->belongsToMany(App\Models\Role::class);
+        return $this->belongsToMany(Role::class);
     }
 
     /**
@@ -55,7 +55,7 @@ class User extends Authenticatable
      */
     public function subjects()
     {
-        return $this->hasManyThrough(App\Models\Subject::class, App\Models\Student::class);
+        return $this->hasManyThrough(Subject::class, Student::class);
     }
 
     /**
@@ -65,6 +65,6 @@ class User extends Authenticatable
      */
     public function photos()
     {
-        return $this->morphMany(App\Models\Photo::class, 'imageable');
+        return $this->morphMany(Photo::class, 'imageable');
     }
 }

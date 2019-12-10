@@ -13,6 +13,6 @@ class Role extends Model
      */
     public function users()
     {
-        return $this->belongsToMany(App\Models\User::class)->withPivot('created_at', 'updated_at');
+        return $this->belongsToMany(User::class)->withPivot('created_at', 'updated_at');
     }
 }

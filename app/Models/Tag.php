@@ -13,7 +13,7 @@ class Tag extends Model
      */
     public function students()
     {
-        return $this->morphedByMany(App\Models\Student::class, 'taggable');
+        return $this->morphedByMany(Student::class, 'taggable');
     }
 
     /**
@@ -23,6 +23,6 @@ class Tag extends Model
      */
     public function videos()
     {
-        return $this->morphedByMany(App\Models\Video::class, 'taggable');
+        return $this->morphedByMany(Video::class, 'taggable');
     }
 }

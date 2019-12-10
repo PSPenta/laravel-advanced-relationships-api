@@ -22,7 +22,7 @@ class Subject extends Model
      */
     public function student()
     {
-        return $this->belongsTo(App\Models\Student::class);
+        return $this->belongsTo(Student::class);
     }
 
     /**
@@ -32,6 +32,6 @@ class Subject extends Model
      */
     public function photos()
     {
-        return $this->morphMany(App\Models\Photo::class, 'imageable');
+        return $this->morphMany(Photo::class, 'imageable');
     }
 }

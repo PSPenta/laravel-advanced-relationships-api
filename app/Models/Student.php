@@ -47,7 +47,7 @@ class Student extends Model
      */
     public function subject()
     {
-        return $this->hasOne(App\Models\Subject::class);
+        return $this->hasOne(Subject::class);
     }
 
     /**
@@ -57,7 +57,7 @@ class Student extends Model
      */
     public function subjects()
     {
-        return $this->hasMany(App\Models\Subject::class);
+        return $this->hasMany(Subject::class);
     }
 
     /**
@@ -67,7 +67,7 @@ class Student extends Model
      */
     public function photos()
     {
-        return $this->morphOne(App\Models\Photo::class, 'imageable');
+        return $this->morphOne(Photo::class, 'imageable');
     }
 
     /**
@@ -77,6 +77,6 @@ class Student extends Model
      */
     public function tags()
     {
-        return $this->morphToMany(App\Models\Tag::class, 'taggable');
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 }
