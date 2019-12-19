@@ -264,8 +264,8 @@ class EloquentRelationshipsController extends Controller
         if ($user) {
             $role = Role::find($rid);
             if ($role) {
-                // return ($user->roles()->attach($rid)) ? response()->json(["success" => "Role attached to user successfully!", 200) : response()->json(["error" => "Unable to attach role to user!"], 404);
-                // return ($user->roles()->sync([$rids])) ? response()->json(["success" => "Role synced to user successfully!", 200) : response()->json(["error" => "Unable to sync role to user!"], 404);
+                // return ($user->roles()->attach($rid)) ? response()->json(["success" => "Role attached to user successfully!"], 200) : response()->json(["error" => "Unable to attach role to user!"], 404);
+                // return ($user->roles()->sync([$rids])) ? response()->json(["success" => "Role synced to user successfully!"], 200) : response()->json(["error" => "Unable to sync role to user!"], 404);
                 return ($user->roles()->save($role)) 
                     ? response()->json(["success" => "Role assigned to user successfully!"], 200)
                     : response()->json(["error" => "Unable to assign role to user!"], 404);
@@ -289,7 +289,7 @@ class EloquentRelationshipsController extends Controller
         $user = User::find($id);
         if ($user) {
             if ($user->has('roles')) {
-                // return ($user->roles()->detach($rid)) ? response()->json(["success" => "User role detached successfully!", 200) : response()->json(["error" => "Unable to detach roles of user!"], 404);
+                // return ($user->roles()->detach($rid)) ? response()->json(["success" => "User role detached successfully!"], 200) : response()->json(["error" => "Unable to detach roles of user!"], 404);
                 return ($user->roles()->delete()) 
                     ? response()->json(["success" => "User roles deleted successfully!"], 200)
                     : response()->json(["error" => "Unable to delete roles of user!"], 404);
