@@ -26,13 +26,16 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()->all()], 422);
+            return response()->json(["errors" => $validator->errors()->all()], 422);
         }
 
         $request['password'] = Hash::make($request['password']);
         $user = User::create($request->toArray());
-        Mail::to($request['email'])->send(new UserRegistered());
-        return response()->json(['token' => $user->createToken('Laravel Password Grant Client')->accessToken], 200);
+        Mail::to($request["email"])->send(new UserRegistered());
+        return response()->json([
+            "success" => "User registered successfully!",
+            "token" => $user->createToken('Laravel Password Grant Client')->accessToken
+        ], 200);
     }
 
     /**
@@ -48,12 +51,15 @@ class AuthController extends Controller
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
                 $token = $user->createToken('Laravel Password Grant Client')->accessToken;
-                return response()->json(['token' => $token], 200);
+                return response()->json([
+                    "success" => "Used logged in successfully!",
+                    "token" => $token
+                ], 200);
             } else {
-                return response()->json("Password missmatch!", 422);
+                return response()->json(["error" => "Password missmatch!"], 422);
             }
         } else {
-            return response()->json("User does not exist!", 422);
+            return response()->json(["error" => "User does not exist!"], 422);
         }
     }
 
@@ -68,7 +74,7 @@ class AuthController extends Controller
     {
         $token = $request->user()->token();
         $token->revoke();
-        return response()->json("You have been succesfully logged out!", 200);
+        return response()->json(["success" => "You have been succesfully logged out!"], 200);
     }
 
     /**
@@ -87,11 +93,11 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()->all()], 422);
+            return response()->json(["errors" => $validator->errors()->all()], 422);
         }
 
         if ($request->old_password == $request->new_password) {
-            return response()->json("New password must be different from old one!", 422);
+            return response()->json(["error" => "New password must be different from old one!"], 422);
         }
 
         $user = User::where('email', $request->email)->first();
@@ -99,13 +105,13 @@ class AuthController extends Controller
             if (Hash::check($request->old_password, $user->password)) {
                 $user->password = Hash::make($request->new_password);
                 return ($user->save()) 
-                    ? response()->json("Password changed successfully!", 200)
-                    : response()->json("Unable to change password!", 404);
+                    ? response()->json(["success" => "Password changed successfully!"], 200)
+                    : response()->json(["error" => "Unable to change password!"], 404);
             } else {
-                return response()->json("Old password missmatch!", 422);
+                return response()->json(["error" => "Old password missmatch!"], 422);
             }
         } else {
-            return response()->json("User does not exist!", 422);
+            return response()->json(["error" => "User does not exist!"], 422);
         }
     }
 }
