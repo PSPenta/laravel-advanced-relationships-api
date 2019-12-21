@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\StudentCollection;
 use App\Models\Student;
 use App\Repositories\StudentRepository;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class StudentController extends Controller
     public function getStudents(StudentRepository $studentRepository)
     {
         try {
-            return response()->json($studentRepository->getAllRecords(10), 200);
+            return response()->json(StudentCollection::collection($studentRepository->getAllRecords(10)), 200);
         } catch (\Throwable $th) {
             return response()->json(["error" => "Internal server error!"], 500);
         }
@@ -34,7 +35,7 @@ class StudentController extends Controller
      */
     public function getStudent(StudentRepository $studentRepository, $id)
     {
-        return response()->json($studentRepository->findById($id), 200);
+        return response()->json(new StudentCollection($studentRepository->findById($id)), 200);
     }
 
     /**
