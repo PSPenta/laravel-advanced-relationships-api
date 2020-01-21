@@ -76,6 +76,7 @@ Route::middleware('api.cors')->group(function () {
         Route::get('/tags/{id}/polym2m', 'EloquentRelationshipsController@getTagsPolymorphic');
         Route::get('/tags/{id}/owner/polym2m', 'EloquentRelationshipsController@getTagsOwnerPolymorphic');
     });
+
     Route::any('/{any}', function () {
         return response()->json(["error" => "Not found!"], 404);
     })->where('any', '.*')->name('not.found');
