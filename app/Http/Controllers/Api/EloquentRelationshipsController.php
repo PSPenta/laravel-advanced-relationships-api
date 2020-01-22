@@ -345,7 +345,9 @@ class EloquentRelationshipsController extends Controller
     {
         // return (User::find($id)) ? response()->json(User::find($id)->photos, 200) : response()->json(["error" => "No user found!"], 404);
         // return (Subject::find($id)) ? response()->json(Subject::find($id)->photos, 200) : response()->json(["error" => "No subject found!"], 404);
-        return (Student::find($id)) ? response()->json(Student::find($id)->photos, 200) : response()->json(["error" => "No student found!"], 404);
+        return (Student::find($id))
+            ? response()->json(Student::find($id)->photos, 200)
+            : response()->json(["error" => "No student found!"], 404);
     }
 
     /**
@@ -357,7 +359,9 @@ class EloquentRelationshipsController extends Controller
      */
     public function getPhotosOwnerPolymorphic($id)
     {
-        return (Photo::find($id)) ? response()->json(Photo::find($id)->imageable, 200) : response()->json(["error" => "No owner found!"], 404);
+        return (Photo::find($id))
+            ? response()->json(Photo::find($id)->imageable, 200)
+            : response()->json(["error" => "No owner found!"], 404);
     }
 
     /**
@@ -369,7 +373,9 @@ class EloquentRelationshipsController extends Controller
      */
     public function getTagsPolymorphic($id)
     {
-        return (Student::find($id)) ? response()->json(Student::find($id)->tags, 200) : response()->json(["error" => "No tag found!"], 404);
+        return (Student::find($id))
+            ? response()->json(Student::find($id)->tags, 200)
+            : response()->json(["error" => "No tag found!"], 404);
     }
 
     /**
@@ -382,6 +388,8 @@ class EloquentRelationshipsController extends Controller
     public function getTagsOwnerPolymorphic($id)
     {
         // return (Tag::find($id)) ? response()->json(Tag::find($id)->students, 200) : response()->json(["error" => "No owner found!"], 404);
-        return (Tag::find($id)) ? response()->json(Tag::find($id)->videos, 200) : response()->json(["error" => "No owner found!"], 404);
+        return (Tag::find($id))
+            ? response()->json(Tag::find($id)->videos, 200)
+            : response()->json(["error" => "No owner found!"], 404);
     }
 }
