@@ -212,7 +212,7 @@ class EloquentRelationshipsController extends Controller
                 foreach ($student->subjects as $subject)
                     if ($subject->delete())
                         $count++;
-                
+
                 return ($count > 0) 
                     ? response()->json(["success" => "All subjects of current user delete successfully!"], 200)
                     : response()->json(["error" => "Unable to delete subjects!"], 404);
@@ -233,15 +233,11 @@ class EloquentRelationshipsController extends Controller
      */
     public function getRolesManyToMany($id)
     {
-        $user = User::find($id);
-        if ($user) {
-            if ($user->has('roles')) {
-                $roles = [];
-                foreach (User::find($id)->roles as $role)
-                    array_push($roles, $role->pivot);
-                
-                return response()->json($roles, 200);
-                // return response()->json(User::find($id)->roles, 200);
+        if (User::find($id)) {
+            if (User::find($id)->has('roles')) {
+                return response()->json(User::with(['roles' => function($q) {
+                    $q->select('roles.id', 'type');
+                }])->find($id)->roles, 200);
             } else {
                 return response()->json(["error" => "No roles assigned to this user!"], 404);
             }
