@@ -329,7 +329,9 @@ class EloquentRelationshipsController extends Controller
      */
     public function getRolesHasManyThrough($id)
     {
-        return (User::find($id)) ? response()->json(User::find($id)->subjects, 200) : response()->json(["error" => "No user found!"], 404);
+        return (User::find($id))
+            ? response()->json(User::find($id)->subjects, 200)
+            : response()->json(["error" => "No user found!"], 404);
     }
 
     /**
