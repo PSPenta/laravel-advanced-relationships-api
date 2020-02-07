@@ -40,5 +40,6 @@ class SendEmails extends Command
     public function handle()
     {
         Mail::to($this->argument('user'))->send(new UserRegistered());
+        $this->info("Email sent to $this->argument('user') successfully!");
     }
 }
