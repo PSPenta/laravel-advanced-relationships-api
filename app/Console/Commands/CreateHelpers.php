@@ -41,10 +41,20 @@ class CreateHelpers extends Command
         if (!File::isDirectory(app_path('Helpers'))) {
             File::makeDirectory(app_path('Helpers'), 0777, true, true);
         }
+        $fileName = $this->argument('helper_name');
+        if (strpos($this->argument('helper_name'), '/')) {
+            $dirName = explode('/', $this->argument('helper_name'));
+            $fileName = array_pop($dirName);
+            $dirName = implode('/', $dirName);
+            if (!File::isDirectory(app_path('Helpers').'/'.$dirName)) {
+                File::makeDirectory(app_path('Helpers').'/'.$dirName, 0777, true, true);
+            }
+        }
         $helperFile = app_path('Helpers') . '/' . $this->argument('helper_name') . '.php';
         if (!File::exists($helperFile)) {
             $file = fopen($helperFile, 'w');
-            fwrite($file, "<?php\n\nnamespace App\Helpers;\n\nclass ".$this->argument('helper_name')."\n{\n    //\n}\n");
+            $nameSpacePath = (strpos($this->argument('helper_name'), '/')) ? '\\'.str_replace('/', '\\', $dirName) : '';
+            fwrite($file, "<?php\n\nnamespace App\Helpers".$nameSpacePath.";\n\nclass ".$fileName."\n{\n    //\n}\n");
             fclose($file);
             $this->info("Helper created successfully!");
         } else {
