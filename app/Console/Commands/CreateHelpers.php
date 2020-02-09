@@ -43,7 +43,9 @@ class CreateHelpers extends Command
         }
         $helperFile = app_path('Helpers') . '/' . $this->argument('helper_name') . '.php';
         if (!File::exists($helperFile)) {
-            File::makeDirectory($helperFile, 0777, true, true);
+            $file = fopen($helperFile, 'w');
+            fwrite($file, "<?php\n\nnamespace App\Helpers;\n\nclass ".$this->argument('helper_name')."\n{\n    //\n}\n");
+            fclose($file);
             $this->info("Helper created successfully!");
         } else {
             $this->error("Helper already exists!");
