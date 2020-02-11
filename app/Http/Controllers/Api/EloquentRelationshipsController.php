@@ -213,13 +213,13 @@ class EloquentRelationshipsController extends Controller
                         $count++;
 
                 return ($count > 0) 
-                    ? response()->json(["success" => "All subjects of current user delete successfully!"], 200)
+                    ? response()->json(["success" => "All subjects of current user deleted successfully!"], 200)
                     : response()->json(["error" => "Unable to delete subjects!"], 404);
             } else {
                 return response()->json(["error" => "No subject found!"], 404);
             }
         } else {
-            return response()->json(["error" => "No student found!"], 400);
+            return response()->json(["error" => "No student found!"], 404);
         }
     }
 
