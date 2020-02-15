@@ -12,11 +12,4 @@ class User extends Model
      * @var string
      */
     protected $connection = 'mongodb';
-
-    /**
-     * The collection name.
-     *
-     * @var string
-     */
-    protected $collection = 'users';
 }
