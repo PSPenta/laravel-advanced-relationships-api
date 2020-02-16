@@ -14,8 +14,10 @@ use Illuminate\Http\Request;
 */
 
 Route::middleware('api.cors')->group(function () {
-    Route::prefix('mongo')->group(function () {
-        Route::get('/users', 'MongoDBController@getUsers');
+    Route::middleware('auth:api')->group(function () {
+        Route::prefix('mongo')->group(function () {
+            Route::get('/users', 'MongoDBController@getUsers');
+        });
     });
     // public routes
     Route::post('/login', 'AuthController@login')->name('login.api');

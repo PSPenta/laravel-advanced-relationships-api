@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Mail\UserRegistered;
-use App\Models\User;
+// use App\Models\User;
+use App\Models\MongoDB\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{Hash, Mail, Validator};
 
