@@ -91,12 +91,6 @@ return [
             'prefix_indexes' => true,
         ],
 
-        'mongodb' => [
-            'driver' => 'mongodb',
-            'dsn' => env('DB_DSN'),
-            'database' => env('DB_DATABASE', 'forge'),
-        ],
-
     ],
 
     /*
