@@ -35,7 +35,7 @@ Route::middleware('api.cors')->group(function () {
     });
 
     // MySQL routes
-    // Route::middleware('auth:api')->group(function () {
+    Route::middleware('auth:api')->group(function () {
         Route::get('/logout', 'AuthController@logout')->name('logout');
         Route::post('/change-password', 'AuthController@changePassword')->name('change.password');
 
@@ -83,7 +83,7 @@ Route::middleware('api.cors')->group(function () {
         Route::get('/photos/{id}/owner/poly', 'EloquentRelationshipsController@getPhotosOwnerPolymorphic');
         Route::get('/tags/{id}/polym2m', 'EloquentRelationshipsController@getTagsPolymorphic');
         Route::get('/tags/{id}/owner/polym2m', 'EloquentRelationshipsController@getTagsOwnerPolymorphic');
-    // });
+    });
 
     Route::any('/{any}', function () {
         return response()->json(["error" => "Not found!"], 404);
