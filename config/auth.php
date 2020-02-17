@@ -45,6 +45,11 @@ return [
             'driver' => 'passport',
             'provider' => 'users',
         ],
+
+        'mongo-api' => [
+            'driver' => 'passport',
+            'provider' => 'mongo-users',
+        ],
     ],
 
     /*
@@ -67,13 +72,13 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\MongoDB\User::class,
+            'model' => App\Models\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'mongo-users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\MongoDB\User::class,
+        ],
     ],
 
     /*
@@ -94,6 +99,13 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'mongo-users' => [
+            'provider' => 'mongo-users',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
