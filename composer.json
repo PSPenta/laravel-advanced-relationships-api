@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
+        "auth0/login": "^5.3",
         "aws/aws-sdk-php": "^3.123",
         "designmynight/laravel-mongodb-passport": "^1.2",
         "fideloper/proxy": "^4.0",
