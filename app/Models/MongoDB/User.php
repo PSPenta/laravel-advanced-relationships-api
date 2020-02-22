@@ -32,6 +32,17 @@ class User extends Model
      */
     protected $hidden = [
         'password',
+        'api_token',
         'remember_token'
     ];
+
+    /**
+     * The Embeds Many relationship.
+     *
+     * @return array
+     */
+    public function roles()
+    {
+        return $this->embedsMany(Role::class);
+    }
 }

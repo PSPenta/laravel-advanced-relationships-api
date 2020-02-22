@@ -31,7 +31,14 @@ Route::middleware('api.cors')->group(function () {
         // MongoDB routes
         Route::middleware([])->group(function () {
             Route::prefix('mongo')->group(function () {
-                Route::get('/users', 'MongoDBController@getUsers');
+                Route::prefix('users')->group(function () {
+                    Route::get('/', 'MongoDB\UserController@getUsers');
+                    Route::get('/paginate', 'MongoDB\UserController@getUsersPaginate');
+                    Route::get('/{_id}', 'MongoDB\UserController@getUser');
+                    Route::post('/', 'MongoDB\UserController@addUser');
+                    Route::put('/{_id}', 'MongoDB\UserController@updateUser');
+                    Route::delete('/{_id}', 'MongoDB\UserController@deleteUser');
+                });
             });
         });
 
