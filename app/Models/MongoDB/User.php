@@ -2,10 +2,10 @@
 
 namespace App\Models\MongoDB;
 
-use DesignMyNight\Mongodb\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Jenssegers\Mongodb\Eloquent\Model;
 
-class User extends Authenticatable
+class User extends Model
 {
     use Notifiable;
 

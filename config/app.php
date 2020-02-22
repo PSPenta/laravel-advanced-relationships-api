@@ -161,7 +161,6 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        DesignMyNight\Mongodb\MongodbPassportServiceProvider::class,
 
         /*
          * Package Service Providers...
