@@ -109,4 +109,78 @@ class UserController extends Controller
             return response()->json(["error" => "Internal server error!"], 500);
         }
     }
+
+    /**
+     * Updates a User.
+     *
+     * @param Illuminate\Http\Request $request
+     * @param string $_id  App\Models\MongoDB\User _id
+     *
+     * @return response
+     */
+    public function updateUser(Request $request, $_id)
+    {
+        try {
+            $data = $request->json()->all();
+
+            $validator = Validator::make($data, [
+                'fname' => 'required|string|min:6|max:255',
+                'lname' => 'required|string|min:6|max:255',
+                'email' => 'required|email|max:255|unique:users',
+                'password' => [
+                    'required',
+                    'min:6',
+                    'max:255',
+                    'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/',
+                    'confirmed'
+                ],
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(["errors" => $validator->errors()->all()], 422);
+            }
+
+            $user = User::find($_id);
+            if ($user) {
+                $user->profile = [
+                    'fname' => $data['fname'],
+                    'mname' => $data['mname'],
+                    'lname' => $data['lname'],
+                ];
+                $user->email = $data['email'];
+                $user->password = Hash::make($data['password']);
+                $user->api_token = Str::random(60);
+                if ($user->save()) {
+                    return response()->json(["success" => "User updated successfully!"], 200);
+                } else {
+                    return response()->json(["error" => "Could not update student!"], 404);
+                }
+            } else {
+                return response()->json(["error" => "User does not exist!"], 404);
+            }
+        } catch (\Throwable $th) {
+            return response()->json(["error" => "Internal server error!"], 500);
+        }
+    }
+
+    /**
+     * Deletes a user.
+     *
+     * @param string $_id  App\Models\MongoDB\User _id
+     *
+     * @return response
+     */
+    public function deleteUser($_id)
+    {
+        try {
+            if (User::find($_id)) {
+                User::find($_id)->delete();
+                return response()->json(["success" => "User deleted successfully!"], 200);
+            } else {
+                return response()->json(["error" => "User does not exist!"], 404);
+            }
+        } catch (\Throwable $th) {
+            return response()->json(["error" => "Internal server error!"], 500);
+        }
+    }
 }
