@@ -20,7 +20,7 @@ class UserController extends Controller
     public function getUsers()
     {
         try {
-            return response()->json(User::with('roles')->get(), 200);
+            return response()->json(User::with('roles')->with('products')->get(), 200);
         } catch (\Throwable $th) {
             return response()->json(["error" => "Internal server error!"], 500);
         }
@@ -36,7 +36,7 @@ class UserController extends Controller
     public function getUsersPaginate()
     {
         try {
-            return response()->json(User::with('roles')->paginate(10), 200);
+            return response()->json(User::with('roles')->with('products')->paginate(10), 200);
         } catch (\Throwable $th) {
             return response()->json(["error" => "Internal server error!"], 500);
         }
@@ -52,7 +52,7 @@ class UserController extends Controller
     public function getUser($_id)
     {
         try {
-            return response()->json(User::with('roles')->find($_id), 200);
+            return response()->json(User::with('roles')->with('products')->find($_id), 200);
         } catch (\Throwable $th) {
             return response()->json(["error" => "Internal server error!"], 500);
         }

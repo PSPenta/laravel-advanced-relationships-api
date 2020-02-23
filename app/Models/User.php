@@ -57,6 +57,16 @@ class User extends Authenticatable
     }
 
     /**
+     * The Many To Many relationship.
+     *
+     * @return array
+     */
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
+    }
+
+    /**
      * The Has Many Through relationship.
      *
      * @return array

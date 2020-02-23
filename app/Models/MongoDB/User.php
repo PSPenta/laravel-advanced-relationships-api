@@ -45,4 +45,14 @@ class User extends Model
     {
         return $this->embedsMany(Role::class);
     }
+
+    /**
+     * The Many To Many relationship.
+     *
+     * @return array
+     */
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
+    }
 }
