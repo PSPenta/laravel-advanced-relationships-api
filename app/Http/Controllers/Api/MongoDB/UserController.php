@@ -49,10 +49,10 @@ class UserController extends Controller
      *
      * @return response
      */
-    public function getUser($_id)
+    public function getUser(User $user)
     {
         try {
-            return response()->json(User::with('roles')->with('products')->find($_id), 200);
+            return response()->json($user->load('roles')->load('products'), 200);
         } catch (\Throwable $th) {
             return response()->json(["error" => "Internal server error!"], 500);
         }
@@ -118,7 +118,7 @@ class UserController extends Controller
      *
      * @return response
      */
-    public function updateUser(Request $request, $_id)
+    public function updateUser(Request $request, User $user)
     {
         try {
             $data = $request->json()->all();
@@ -140,7 +140,6 @@ class UserController extends Controller
                 return response()->json(["errors" => $validator->errors()->all()], 422);
             }
 
-            $user = User::find($_id);
             if ($user) {
                 $user->profile = [
                     'fname' => $data['fname'],
@@ -170,11 +169,11 @@ class UserController extends Controller
      *
      * @return response
      */
-    public function deleteUser($_id)
+    public function deleteUser(User $user)
     {
         try {
-            if (User::find($_id)) {
-                User::find($_id)->delete();
+            if ($user) {
+                $user->delete();
                 return response()->json(["success" => "User deleted successfully!"], 200);
             } else {
                 return response()->json(["error" => "User does not exist!"], 404);
