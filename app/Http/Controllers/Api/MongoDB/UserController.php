@@ -173,8 +173,11 @@ class UserController extends Controller
     {
         try {
             if ($user) {
-                $user->delete();
-                return response()->json(["success" => "User deleted successfully!"], 200);
+                if ($user->delete()) {
+                    return response()->json(["success" => "User deleted successfully!"], 200);
+                } else {
+                    return response()->json(["success" => "Could not delete user!"], 404);
+                }
             } else {
                 return response()->json(["error" => "User does not exist!"], 404);
             }
