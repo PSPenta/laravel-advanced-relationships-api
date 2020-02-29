@@ -125,7 +125,7 @@ class UserController extends Controller
             $validator = Validator::make($data, [
                 'fname' => 'required|string|min:6|max:255',
                 'lname' => 'required|string|min:6|max:255',
-                'email' => 'required|email|max:255|unique:mongodb.users',
+                'email' => 'required|email|max:255|unique:mongodb.users,'.$user->_id,
                 'password' => [
                     'required',
                     'min:6',
