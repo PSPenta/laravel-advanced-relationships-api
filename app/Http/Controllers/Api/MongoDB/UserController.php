@@ -65,7 +65,7 @@ class UserController extends Controller
      *
      * @return response
      */
-    public function addUser(Request $request)
+    public function addUser(Request $request, User $user)
     {
         try {
             $data = $request->json()->all();
@@ -73,7 +73,7 @@ class UserController extends Controller
             $validator = Validator::make($data, [
                 'fname' => 'required|string|min:6|max:255',
                 'lname' => 'required|string|min:6|max:255',
-                'email' => 'required|email|max:255|unique:users',
+                'email' => 'required|email|max:255|unique:mongodb.users',
                 'password' => [
                     'required',
                     'min:6',
@@ -87,7 +87,6 @@ class UserController extends Controller
                 return response()->json(["errors" => $validator->errors()->all()], 422);
             }
 
-            $user = new User();
             $user->profile = [
                 'fname' => $data['fname'],
                 'mname' => $data['mname'],
