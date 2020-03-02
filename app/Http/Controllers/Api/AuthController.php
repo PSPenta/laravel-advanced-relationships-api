@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\EmailSend;
 use App\Mail\UserRegistered;
 // use App\Models\User;
 use App\Models\MongoDB\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\{Hash, Mail, Validator};
+use Illuminate\Support\Facades\{Hash, Validator};
 
 class AuthController extends Controller
 {
@@ -32,7 +33,7 @@ class AuthController extends Controller
 
         $request['password'] = Hash::make($request['password']);
         $user = User::create($request->toArray());
-        Mail::to($request["email"])->send(new UserRegistered());
+        EmailSend::dispatch($request["email"], new UserRegistered())->delay(now()->addSeconds(10));
         return response()->json([
             "success" => "User registered successfully!",
             "token" => $user->createToken('Laravel Password Grant Client')->accessToken

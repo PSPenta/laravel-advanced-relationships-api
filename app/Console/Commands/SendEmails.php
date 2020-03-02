@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\EmailSend;
 use App\Mail\UserRegistered;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Mail;
 
 class SendEmails extends Command
 {
@@ -39,7 +39,7 @@ class SendEmails extends Command
      */
     public function handle()
     {
-        Mail::to($this->argument('user'))->send(new UserRegistered());
-        $this->info("Email sent to $this->argument('user') successfully!");
+        EmailSend::dispatch($this->argument('user'), new UserRegistered())->delay(now()->addSeconds(10));
+        $this->info("Email sent to ".$this->argument('user')." successfully!");
     }
 }
