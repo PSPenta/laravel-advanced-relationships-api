@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Jobs\EmailSend;
+use App\Jobs\SendEmailJob;
 use App\Mail\UserRegistered;
 // use App\Models\User;
 use App\Models\MongoDB\User;
@@ -33,7 +33,7 @@ class AuthController extends Controller
 
         $request['password'] = Hash::make($request['password']);
         $user = User::create($request->toArray());
-        EmailSend::dispatch($request["email"], new UserRegistered())->delay(now()->addSeconds(10));
+        SendEmailJob::dispatch($request["email"], new UserRegistered())->delay(now()->addSeconds(10));
         return response()->json([
             "success" => "User registered successfully!",
             "token" => $user->createToken('Laravel Password Grant Client')->accessToken
