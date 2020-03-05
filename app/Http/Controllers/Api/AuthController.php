@@ -33,7 +33,7 @@ class AuthController extends Controller
 
         $request['password'] = Hash::make($request['password']);
         $user = User::create($request->toArray());
-        SendEmailJob::dispatch($request["email"], new UserRegistered())->delay(now()->addSeconds(10));
+        SendEmailJob::dispatch($request["email"], new UserRegistered());
         return response()->json([
             "success" => "User registered successfully!",
             "token" => $user->createToken('Laravel Password Grant Client')->accessToken
