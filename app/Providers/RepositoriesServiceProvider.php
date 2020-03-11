@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class HelperServiceProvider extends ServiceProvider
+class RepositoriesServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -13,9 +13,7 @@ class HelperServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        foreach (glob(app_path('Helpers') . '/*.php') as $file) {
-            require_once $file;
-        }
+        //
     }
 
     /**
@@ -25,6 +23,6 @@ class HelperServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->bind(\App\Repositories\Interfaces\UserRepositoryInterface::class, \App\Repositories\UserRepository::class);
     }
 }

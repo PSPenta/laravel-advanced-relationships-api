@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\StudentCollection;
 use App\Models\Student;
-use App\Repositories\StudentRepository;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -17,10 +16,10 @@ class StudentController extends Controller
      *
      * @return response
      */
-    public function getStudents(StudentRepository $studentRepository)
+    public function getStudents(Student $student)
     {
         try {
-            return response()->json(StudentCollection::collection($studentRepository->getAllRecords(10)), 200);
+            return response()->json(StudentCollection::collection($student->paginate(10)), 200);
         } catch (\Throwable $th) {
             return response()->json(["error" => "Internal server error!"], 500);
         }
@@ -33,9 +32,14 @@ class StudentController extends Controller
      *
      * @return response
      */
-    public function getStudent(StudentRepository $studentRepository, $id)
+    public function getStudent(Student $student, $id)
     {
-        return response()->json(new StudentCollection($studentRepository->findById($id)), 200);
+        $data = $student->find($id);
+        if ($data) {
+            return response()->json(new StudentCollection($data), 200);
+        } else {
+            return response()->json(["error" => "Not found!"], 404);
+        }
     }
 
     /**
@@ -198,10 +202,10 @@ class StudentController extends Controller
      *
      * @return response
      */
-    public function getSoftDeletedStudent(StudentRepository $studentRepository, $id)
+    public function getSoftDeletedStudent(Student $student)
     {
         // $students = Student::onlyTrashed()->find($id);
-        return response()->json($studentRepository->getOnlyTrashed(), 200);
+        return response()->json($student::onlyTrashed()->get(), 200);
     }
 
     /**

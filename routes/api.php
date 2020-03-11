@@ -68,7 +68,7 @@ Route::middleware('api.cors')->group(function () {
 
                 Route::delete('/{id}/multiple', 'StudentController@deleteMultipleStudents');
                 Route::delete('/', 'StudentController@deleteAllStudents');
-                Route::get('/{id}/s', 'StudentController@getSoftDeletedStudent');
+                Route::get('/s', 'StudentController@getSoftDeletedStudent');
                 Route::put('/{id}/sr', 'StudentController@restoreSoftDeletedStudent');
                 Route::delete('/{id}/force', 'StudentController@forceDeleteSoftDeletedStudent');
             });

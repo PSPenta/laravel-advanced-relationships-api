@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Api\MongoDB;
 
 use App\Http\Controllers\Controller;
 use App\Models\MongoDB\{Role, User};
+use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Http\Request;
-use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\{Hash, Validator};
 use Illuminate\Support\Str;
 
@@ -50,13 +50,11 @@ class UserController extends Controller
      *
      * @return response
      */
-    public function getUsersPipelined()
+    public function getUsersPipelined(UserRepositoryInterface $user)
     {
         try {
-            $query = app(Pipeline::class)->send(User::query())->through([\App\Pipes\Products::class, \App\Pipes\Roles::class])->thenReturn();
-            return response()->json((request('paginate')) ? $query->paginate((int) request('paginate')) : $query->get(), 200);
+            return response()->json($user->getPipelinedUsers(request('paginate')), 200);
         } catch (\Throwable $th) {
-            var_dump($th);exit();
             return response()->json(["error" => "Internal server error!"], 500);
         }
     }
