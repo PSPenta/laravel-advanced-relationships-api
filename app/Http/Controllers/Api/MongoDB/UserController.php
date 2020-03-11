@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\MongoDB;
 use App\Http\Controllers\Controller;
 use App\Models\MongoDB\{Role, User};
 use Illuminate\Http\Request;
+use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\{Hash, Validator};
 use Illuminate\Support\Str;
 
@@ -36,8 +37,26 @@ class UserController extends Controller
     public function getUsersPaginate()
     {
         try {
-            return response()->json(User::with('roles')->with('products')->paginate(10), 200);
+            return response()->json(User::with(['roles', 'products'])->paginate(10), 200);
         } catch (\Throwable $th) {
+            return response()->json(["error" => "Internal server error!"], 500);
+        }
+    }
+
+    /**
+     * Get all MongoDB users with some query operations.
+     *
+     * @param 
+     *
+     * @return response
+     */
+    public function getUsersPipelined()
+    {
+        try {
+            $query = app(Pipeline::class)->send(User::query())->through([\App\Pipes\Products::class, \App\Pipes\Roles::class])->thenReturn();
+            return response()->json((request('paginate')) ? $query->paginate((int) request('paginate')) : $query->get(), 200);
+        } catch (\Throwable $th) {
+            var_dump($th);exit();
             return response()->json(["error" => "Internal server error!"], 500);
         }
     }
@@ -52,7 +71,7 @@ class UserController extends Controller
     public function getUser(User $user)
     {
         try {
-            return response()->json($user->load('roles')->load('products'), 200);
+            return response()->json($user->load(['roles', 'products']), 200);
         } catch (\Throwable $th) {
             return response()->json(["error" => "Internal server error!"], 500);
         }

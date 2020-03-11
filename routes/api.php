@@ -34,6 +34,7 @@ Route::middleware('api.cors')->group(function () {
                 Route::prefix('users')->group(function () {
                     Route::get('/', 'MongoDB\UserController@getUsers');
                     Route::get('/paginate', 'MongoDB\UserController@getUsersPaginate');
+                    Route::get('/pipelined', 'MongoDB\UserController@getUsersPipelined');
                     Route::get('/{user}', 'MongoDB\UserController@getUser');
                     Route::post('/', 'MongoDB\UserController@addUser');
                     Route::put('/{user}', 'MongoDB\UserController@updateUser');
