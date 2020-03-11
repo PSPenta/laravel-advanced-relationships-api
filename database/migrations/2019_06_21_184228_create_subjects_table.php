@@ -20,6 +20,8 @@ class CreateSubjectsTable extends Migration
             $table->integer('total_marks')->unsigned();
             $table->integer('obtained_marks')->unsigned();
             $table->timestamps();
+
+            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
         });
     }
 
