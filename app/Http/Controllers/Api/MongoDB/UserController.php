@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\MongoDB;
 
 use App\Http\Controllers\Controller;
 use App\Models\MongoDB\{Role, User};
-use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Repositories\MongoDB\Interfaces\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{Hash, Validator};
 use Illuminate\Support\Str;

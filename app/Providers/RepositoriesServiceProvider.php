@@ -23,6 +23,6 @@ class RepositoriesServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->bind(\App\Repositories\Interfaces\UserRepositoryInterface::class, \App\Repositories\UserRepository::class);
+        $this->app->bind(\App\Repositories\MongoDB\Interfaces\UserRepositoryInterface::class, \App\Repositories\MongoDB\UserRepository::class);
     }
 }

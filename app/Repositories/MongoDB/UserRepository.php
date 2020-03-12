@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\MongoDB;
 
 use App\Models\MongoDB\User;
-use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Repositories\MongoDB\Interfaces\UserRepositoryInterface;
 
 class UserRepository implements UserRepositoryInterface
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Interfaces;
+namespace App\Repositories\MongoDB\Interfaces;
 
 interface UserRepositoryInterface
 {
