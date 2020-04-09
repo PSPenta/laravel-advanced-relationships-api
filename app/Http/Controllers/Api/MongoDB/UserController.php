@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\MongoDB;
 
+use App\Events\EmailSend;
 use App\Http\Controllers\Controller;
 use App\Models\MongoDB\{Role, User};
 use App\Repositories\MongoDB\Interfaces\UserRepositoryInterface;
@@ -53,6 +54,7 @@ class UserController extends Controller
     public function getUsersPipelined(UserRepositoryInterface $user)
     {
         try {
+            event(new EmailSend(["event" => "broadcasting"]));
             return response()->json($user->getPipelinedUsers(request('paginate')), 200);
         } catch (\Throwable $th) {
             return response()->json(["error" => "Internal server error!"], 500);
