@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\MongoDB\{Role, User};
 use App\Repositories\MongoDB\Interfaces\UserRepositoryInterface;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\{Hash, Validator};
+use Illuminate\Support\Facades\{Hash, Log, Validator};
 use Illuminate\Support\Str;
 
 class UserController extends Controller
@@ -55,8 +55,10 @@ class UserController extends Controller
     {
         try {
             event(new EmailSend(["event" => "broadcasting"]));
+            // Log::info('Event Broadcasted!');
             return response()->json($user->getPipelinedUsers(request('paginate')), 200);
         } catch (\Throwable $th) {
+            Log::error($th);
             return response()->json(["error" => "Internal server error!"], 500);
         }
     }
