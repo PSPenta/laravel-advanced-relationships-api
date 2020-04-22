@@ -24,6 +24,7 @@ class UserController extends Controller
         try {
             return response()->json(User::with('roles')->with('products')->get(), 200);
         } catch (\Throwable $th) {
+            Log::error($th);
             return response()->json(["error" => "Internal server error!"], 500);
         }
     }
@@ -40,6 +41,7 @@ class UserController extends Controller
         try {
             return response()->json(User::with(['roles', 'products'])->paginate(10), 200);
         } catch (\Throwable $th) {
+            Log::error($th);
             return response()->json(["error" => "Internal server error!"], 500);
         }
     }
@@ -75,6 +77,7 @@ class UserController extends Controller
         try {
             return response()->json($user->load(['roles', 'products']), 200);
         } catch (\Throwable $th) {
+            Log::error($th);
             return response()->json(["error" => "Internal server error!"], 500);
         }
     }
@@ -126,6 +129,7 @@ class UserController extends Controller
                 return response()->json(["error" => "Could not create user!"], 404);
             }
         } catch (\Throwable $th) {
+            Log::error($th);
             return response()->json(["error" => "Internal server error!"], 500);
         }
     }
@@ -178,6 +182,7 @@ class UserController extends Controller
                 return response()->json(["error" => "User does not exist!"], 404);
             }
         } catch (\Throwable $th) {
+            Log::error($th);
             return response()->json(["error" => "Internal server error!"], 500);
         }
     }
@@ -202,6 +207,7 @@ class UserController extends Controller
                 return response()->json(["error" => "User does not exist!"], 404);
             }
         } catch (\Throwable $th) {
+            Log::error($th);
             return response()->json(["error" => "Internal server error!"], 500);
         }
     }

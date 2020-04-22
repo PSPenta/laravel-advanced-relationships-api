@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\StudentCollection;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class StudentController extends Controller
 {
@@ -21,6 +22,7 @@ class StudentController extends Controller
         try {
             return response()->json(StudentCollection::collection($student->paginate(10)), 200);
         } catch (\Throwable $th) {
+            Log::error($th);
             return response()->json(["error" => "Internal server error!"], 500);
         }
     }
@@ -69,6 +71,7 @@ class StudentController extends Controller
                 return response()->json(["error" => "Could not create student!"], 404);
             }
         } catch (\Throwable $th) {
+            Log::error($th);
             return response()->json(["error" => "Internal server error!"], 500);
         }
     }
