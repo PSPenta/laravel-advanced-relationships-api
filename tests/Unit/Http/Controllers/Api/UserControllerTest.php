@@ -14,7 +14,7 @@ class UserControllerTest extends TestCase
      */
     public function testGetUsers()
     {
-        $response = $this->get('/api/users');
+        $response = $this->get('/api/users', ['HTTP_Authorization' => 'Bearer '.env("AUTH0_TEST_TOKEN")]);
         $response->assertStatus(200);
     }
 }
