@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     </head>
     <body>
-        <div id="app"></div>
+        <div id="app">Laravel API Server</div>
         <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>
