@@ -18,13 +18,9 @@ Route::middleware('api.cors')->group(function () {
     Route::post('/login', 'AuthController@login')->name('login.api');
     Route::post('/register', 'AuthController@register')->name('register.api');
 
-    Route::get('/unauthenticated', function () {
-        return response()->json(["error" => "Unauthenticated user!"], 401);
-    })->name('unauthenticated');
+    Route::get('/unauthenticated', 'ClosureController@unauthenticated')->name('unauthenticated');
 
-    Route::get('/unauthorized', function () {
-        return response()->json(["error" => "Unauthorized user!"], 403);
-    })->name('unauthorized');
+    Route::get('/unauthorized', 'ClosureController@unauthorized')->name('unauthorized');
 
     // private routes
     Route::middleware(['jwt'])->group(function () {
@@ -95,7 +91,5 @@ Route::middleware('api.cors')->group(function () {
         });
     });
 
-    Route::any('/{any}', function () {
-        return response()->json(["error" => "Not found!"], 404);
-    })->where('any', '.*')->name('not.found');
+    Route::any('/{any}', 'ClosureController@error404')->where('any', '.*')->name('not.found');
 });
