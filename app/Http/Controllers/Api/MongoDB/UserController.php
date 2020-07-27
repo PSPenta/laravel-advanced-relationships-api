@@ -107,9 +107,8 @@ class UserController extends Controller
                 ],
             ]);
 
-            if ($validator->fails()) {
+            if ($validator->fails())
                 return response()->json(["errors" => $validator->errors()->all()], 422);
-            }
 
             $user->profile = [
                 'fname' => $data['fname'],
@@ -123,11 +122,10 @@ class UserController extends Controller
             $user->roles()->save(
                 new Role(['type' => 'user', 'description' => 'Newly created user'])
             );
-            if ($user) {
+            if ($user)
                 return response()->json(["success" => "User created successfully!"], 201);
-            } else {
+            else
                 return response()->json(["error" => "Could not create user!"], 404);
-            }
         } catch (\Throwable $th) {
             Log::error($th);
             return response()->json(["error" => "Internal server error!"], 500);
@@ -160,9 +158,8 @@ class UserController extends Controller
                 ],
             ]);
 
-            if ($validator->fails()) {
+            if ($validator->fails())
                 return response()->json(["errors" => $validator->errors()->all()], 422);
-            }
 
             if ($user) {
                 $user->profile = [
@@ -173,11 +170,11 @@ class UserController extends Controller
                 $user->email = $data['email'];
                 $user->password = Hash::make($data['password']);
                 $user->api_token = Str::random(60);
-                if ($user->save()) {
+
+                if ($user->save())
                     return response()->json(["success" => "User updated successfully!"], 200);
-                } else {
+                else
                     return response()->json(["error" => "Could not update student!"], 404);
-                }
             } else {
                 return response()->json(["error" => "User does not exist!"], 404);
             }
@@ -197,15 +194,13 @@ class UserController extends Controller
     public function deleteUser(User $user)
     {
         try {
-            if ($user) {
-                if ($user->delete()) {
+            if ($user)
+                if ($user->delete())
                     return response()->json(["success" => "User deleted successfully!"], 200);
-                } else {
+                else
                     return response()->json(["success" => "Could not delete user!"], 404);
-                }
-            } else {
+            else
                 return response()->json(["error" => "User does not exist!"], 404);
-            }
         } catch (\Throwable $th) {
             Log::error($th);
             return response()->json(["error" => "Internal server error!"], 500);
