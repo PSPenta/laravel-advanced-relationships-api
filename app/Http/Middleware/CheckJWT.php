@@ -33,7 +33,7 @@ class CheckJWT
         try {
             $jwtVerifier = new JWTVerifier($jwtConfig);
             $decodedToken = $jwtVerifier->verifyAndDecode($accessToken);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return response()->json(['message' => $e->getMessage()], 401);
         }
 
